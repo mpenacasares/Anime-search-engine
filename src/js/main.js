@@ -11,8 +11,8 @@ const animeResults = document.querySelector(".js_animeResults");
 
 let data = [];
 function getAnimeResult() {
-const userValue = inputSearch.value;
-// quitar el limit de resultados
+  const userValue = inputSearch.value;
+  // quitar el limit de resultados
   fetch(`https://api.jikan.moe/v3/search/anime?q=${userValue}&limit=4`)
     .then((response) => response.json())
     .then((dataApi) => {
@@ -27,19 +27,30 @@ function renderAnimeResult() {
   animeResults.innerHTML = "";
   for (const eachAnime of data) {
     animeResults.innerHTML += `<li class="js_animeList">
-        <img src=${eachAnime.image_url} alt="Image of ${eachAnime.title}"><h3 class="js_animeTitle">${eachAnime.title}</h3>
+        <img class="js_anime" data-id=${eachAnime.mal_id} src=${eachAnime.image_url} alt="Image of ${eachAnime.title}"><h3 class="js_animeTitle">${eachAnime.title}</h3>
         </li>`;
+  }
+  listenerAddAnime();
+}
+
+function listenerAddAnime() {
+  const animeResults = document.querySelectorAll(".js_anime");
+  for (const animeResult of animeResults) {
+    animeResult.addEventListener("click", addAnimeResult);
   }
 }
 
-function handleSearch(ev){
-ev.preventDefault();
-if (inputSearch.value!==""){
-getAnimeResult();
-}else{
-    animeResults.innerHTML="<p>Introduce primero una serie :)</p>"
+function addAnimeResult(ev) {
+  console.log(ev.currentTarget.dataset.id);
 }
 
+function handleSearch(ev) {
+  ev.preventDefault();
+  if (inputSearch.value !== "") {
+    getAnimeResult();
+  } else {
+    animeResults.innerHTML = "<p>Introduce primero una serie :)</p>";
+  }
 }
 
-btnSearch.addEventListener("click",handleSearch)
+btnSearch.addEventListener("click", handleSearch);
