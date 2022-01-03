@@ -30,9 +30,20 @@ function getAnimeResult() {
 function renderAnimeResult() {
   animeResults.innerHTML = "";
   for (const eachAnime of data) {
-    animeResults.innerHTML += `<li class="js_animeList">
+    // Check previous fav anime in dataFav
+    const selectedFavAnime = dataFav.findIndex(
+      (favedAnime) => favedAnime.mal_id === eachAnime.mal_id
+    );
+
+    if (selectedFavAnime !== -1) {
+      animeResults.innerHTML += `<li class="js_animeList favourite" data-id=${eachAnime.mal_id}>
         <img class="js_anime" data-id=${eachAnime.mal_id} src=${eachAnime.image_url} alt="Image of ${eachAnime.title}"><h3 class="js_animeTitle">${eachAnime.title}</h3>
         </li>`;
+    } else {
+      animeResults.innerHTML += `<li class="js_animeList" data-id=${eachAnime.mal_id}>
+      <img class="js_anime" data-id=${eachAnime.mal_id} src=${eachAnime.image_url} alt="Image of ${eachAnime.title}"><h3 class="js_animeTitle">${eachAnime.title}</h3>
+      </li>`;
+    }
   }
   addFavAnime();
 }
@@ -56,6 +67,9 @@ function handleClickedAnime(ev) {
   );
 
   if (favAnimeClicked === undefined) {
+    // add class to selected anime
+    ev.target.parentNode.classList.add("favourite");
+
     // search clicked anime in data
     const favAnime = data.find(
       (eachAnime) => eachAnime.mal_id === clickedAnimeId
@@ -67,9 +81,13 @@ function handleClickedAnime(ev) {
       image_url: favAnime.image_url,
       title: favAnime.title,
     });
-    renderAnimeFavResults();
-    setInLocalStorage();
+  } else {
+    ev.target.parentNode.classList.remove("favourite");
+    const removeFavAnimeIndex = dataFav.indexOf(favAnimeClicked);
+    dataFav.splice(removeFavAnimeIndex, 1);
   }
+  renderAnimeFavResults();
+  setInLocalStorage();
 }
 
 function renderAnimeFavResults() {
@@ -136,13 +154,14 @@ function removeFavAnime() {
   }
 }
 
+// remove selected object
 function handleRemoveFav(ev) {
-  // select id to reset a fav item
+  // select li id
   const clickedRemoveAnimeId = parseInt(
     ev.currentTarget.parentElement.dataset.id
   );
 
-  // find id to reset selected anime at dataFav
+  // find id anime at dataFav
   const findAnime = dataFav.find(
     (eachAnime) => eachAnime.mal_id === clickedRemoveAnimeId
   );
@@ -150,7 +169,7 @@ function handleRemoveFav(ev) {
   // find id position (number) to reset selected anime at dataFav
   const findAnimeIndex = dataFav.indexOf(findAnime);
 
-  // remove selected object
+  // remove selected anime at dataFav
   dataFav.splice(findAnimeIndex, 1);
 
   setInLocalStorage();
