@@ -7,9 +7,12 @@ const btnSearch = document.querySelector(".js_btnSearch");
 const btnReset = document.querySelector(".js_btnReset");
 const animeResults = document.querySelector(".js_animeResults");
 
+// global variables
+let data = [];
+let dataFav = [];
+
 // server request
 
-let data = [];
 function getAnimeResult() {
   const userValue = inputSearch.value;
   // quitar el limit de resultados
@@ -17,7 +20,6 @@ function getAnimeResult() {
     .then((response) => response.json())
     .then((dataApi) => {
       data = dataApi.results;
-      console.log(data);
       renderAnimeResult();
     });
 }
@@ -30,20 +32,31 @@ function renderAnimeResult() {
         <img class="js_anime" data-id=${eachAnime.mal_id} src=${eachAnime.image_url} alt="Image of ${eachAnime.title}"><h3 class="js_animeTitle">${eachAnime.title}</h3>
         </li>`;
   }
-  listenerAddAnime();
+  addFavAnime();
 }
 
-function listenerAddAnime() {
+// get selected anime id
+function addFavAnime() {
   const animeResults = document.querySelectorAll(".js_anime");
   for (const animeResult of animeResults) {
-    animeResult.addEventListener("click", addAnimeResult);
+    animeResult.addEventListener("click", handleClickedAnime);
   }
 }
 
-function addAnimeResult(ev) {
-  console.log(ev.currentTarget.dataset.id);
+function handleClickedAnime(ev) {
+  const clickedAnimeId = parseInt(ev.currentTarget.dataset.id);
+  const favAnime = data.find(
+    (eachAnime) => eachAnime.mal_id === clickedAnimeId
+  );
+  dataFav.push({
+    mal_id: favAnime.mal_id,
+    image_url: favAnime.image_url,
+    title: favAnime.title,
+  });
+  console.log(dataFav);
 }
 
+// function search
 function handleSearch(ev) {
   ev.preventDefault();
   if (inputSearch.value !== "") {
@@ -53,4 +66,5 @@ function handleSearch(ev) {
   }
 }
 
+// event btn search
 btnSearch.addEventListener("click", handleSearch);
