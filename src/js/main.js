@@ -6,6 +6,7 @@ const inputSearch = document.querySelector(".js_input");
 const btnSearch = document.querySelector(".js_btnSearch");
 const btnReset = document.querySelector(".js_btnReset");
 const animeResults = document.querySelector(".js_animeResults");
+const animeFav = document.querySelector(".js_animeFav");
 
 // global variables
 let data = [];
@@ -24,7 +25,7 @@ function getAnimeResult() {
     });
 }
 
-// paint images
+// paint results
 function renderAnimeResult() {
   animeResults.innerHTML = "";
   for (const eachAnime of data) {
@@ -43,6 +44,7 @@ function addFavAnime() {
   }
 }
 
+// get anime fav array
 function handleClickedAnime(ev) {
   const clickedAnimeId = parseInt(ev.currentTarget.dataset.id);
   const favAnime = data.find(
@@ -54,6 +56,16 @@ function handleClickedAnime(ev) {
     title: favAnime.title,
   });
   console.log(dataFav);
+  renderAnimeFavResults();
+}
+
+function renderAnimeFavResults() {
+  animeFav.innerHTML = "";
+  for (const eachAnime of dataFav) {
+    animeFav.innerHTML += `<li class="js_animeFavList">
+        <img class="js_animeFav" data-id=${eachAnime.mal_id} src=${eachAnime.image_url} alt="Image of ${eachAnime.title}"><h3 class="js_animeFavTitle">${eachAnime.title}</h3>
+        </li>`;
+  }
 }
 
 // function search
