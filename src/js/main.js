@@ -46,24 +46,39 @@ function addFavAnime() {
 
 // get anime fav array
 function handleClickedAnime(ev) {
+  // get id clicked anime
   const clickedAnimeId = parseInt(ev.currentTarget.dataset.id);
-  const favAnime = data.find(
-    (eachAnime) => eachAnime.mal_id === clickedAnimeId
+
+  // search clicked anime in dataFav
+  const favAnimeClicked = dataFav.find(
+    (eachFavAnime) => eachFavAnime.mal_id === clickedAnimeId
   );
-  dataFav.push({
-    mal_id: favAnime.mal_id,
-    image_url: favAnime.image_url,
-    title: favAnime.title,
-  });
-  console.log(dataFav);
-  renderAnimeFavResults();
+
+  if (favAnimeClicked === undefined) {
+    // search clicked anime in data
+    const favAnime = data.find(
+      (eachAnime) => eachAnime.mal_id === clickedAnimeId
+    );
+
+    // add clicked anime to fav
+    dataFav.push({
+      mal_id: favAnime.mal_id,
+      image_url: favAnime.image_url,
+      title: favAnime.title,
+    });
+    console.log(dataFav);
+    renderAnimeFavResults();
+  }
+  // else {
+  //   console.log("Este anime ya está añadido ;)");
+  // }
 }
 
 function renderAnimeFavResults() {
   animeFav.innerHTML = "";
-  for (const eachAnime of dataFav) {
+  for (const eachFavAnime of dataFav) {
     animeFav.innerHTML += `<li class="js_animeFavList">
-        <img class="js_animeFav" data-id=${eachAnime.mal_id} src=${eachAnime.image_url} alt="Image of ${eachAnime.title}"><h3 class="js_animeFavTitle">${eachAnime.title}</h3>
+        <img class="js_animeFav" data-id=${eachFavAnime.mal_id} src=${eachFavAnime.image_url} alt="Image of ${eachFavAnime.title}"><h3 class="js_animeFavTitle">${eachFavAnime.title}</h3>
         </li>`;
   }
 }
