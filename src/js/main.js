@@ -6,6 +6,7 @@ const inputSearch = document.querySelector(".js_input");
 const btnSearch = document.querySelector(".js_btnSearch");
 const btnReset = document.querySelector(".js_btnReset");
 const animeResults = document.querySelector(".js_animeResults");
+
 const animeFav = document.querySelector(".js_animeFav");
 
 // global variables
@@ -66,7 +67,6 @@ function handleClickedAnime(ev) {
       image_url: favAnime.image_url,
       title: favAnime.title,
     });
-    console.log(dataFav);
     renderAnimeFavResults();
     setInLocalStorage();
   }
@@ -75,10 +75,11 @@ function handleClickedAnime(ev) {
 function renderAnimeFavResults() {
   animeFav.innerHTML = "";
   for (const eachFavAnime of dataFav) {
-    animeFav.innerHTML += `<li class="js_animeFavList">
-        <img class="js_animeFav" data-id=${eachFavAnime.mal_id} src=${eachFavAnime.image_url} alt="Image of ${eachFavAnime.title}"><h3 class="js_animeFavTitle">${eachFavAnime.title}</h3>
+    animeFav.innerHTML += `<li class="js_animeFavList" data-id=${eachFavAnime.mal_id}>
+        <img class="js_animeFav" src=${eachFavAnime.image_url} alt="Image of ${eachFavAnime.title}"><h3 class="js_animeFavTitle">${eachFavAnime.title}</h3><button class="js_BtnResetFav">X</button>
         </li>`;
   }
+  removeFavAnime();
 }
 
 // function search
@@ -125,3 +126,33 @@ function handleReset(ev) {
 
 // event btn reset
 btnReset.addEventListener("click", handleReset);
+
+// event btn resetFav
+
+function removeFavAnime() {
+  const allBtnReset = document.querySelectorAll(".js_BtnResetFav");
+  for (const eachFavAnime of allBtnReset) {
+    eachFavAnime.addEventListener("click", handleRemoveFav);
+  }
+}
+
+function handleRemoveFav(ev) {
+  // select id to reset a fav item
+  const clickedRemoveAnimeId = parseInt(
+    ev.currentTarget.parentElement.dataset.id
+  );
+
+  // find id to reset selected anime at dataFav
+  const findAnime = dataFav.find(
+    (eachAnime) => eachAnime.mal_id === clickedRemoveAnimeId
+  );
+
+  // find id position (number) to reset selected anime at dataFav
+  const findAnimeIndex = dataFav.indexOf(findAnime);
+
+  // remove selected object
+  dataFav.splice(findAnimeIndex, 1);
+
+  setInLocalStorage();
+  renderAnimeFavResults();
+}
