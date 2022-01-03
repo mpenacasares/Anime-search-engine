@@ -111,3 +111,17 @@ btnSearch.addEventListener("click", handleSearch);
 
 // start app
 getFromLocalStorage();
+
+// BONUS-------------------------------------------------------------------------------------------------
+
+// clean dataFAV & localStorage // no need to clean up the results
+
+function handleReset(ev) {
+  ev.preventDefault();
+  dataFav = [];
+  renderAnimeFavResults();
+  localStorage.removeItem("dataFav");
+}
+
+// event btn reset
+btnReset.addEventListener("click", handleReset);
