@@ -68,10 +68,8 @@ function handleClickedAnime(ev) {
     });
     console.log(dataFav);
     renderAnimeFavResults();
+    setInLocalStorage();
   }
-  // else {
-  //   console.log("Este anime ya está añadido ;)");
-  // }
 }
 
 function renderAnimeFavResults() {
@@ -93,5 +91,23 @@ function handleSearch(ev) {
   }
 }
 
+// local Storage
+
+const getFromLocalStorage = () => {
+  const localStoragedataFav = localStorage.getItem("dataFav");
+  if (localStoragedataFav !== null) {
+    dataFav = JSON.parse(localStoragedataFav);
+    renderAnimeFavResults();
+  }
+};
+
+const setInLocalStorage = () => {
+  const stringifydataFav = JSON.stringify(dataFav);
+  localStorage.setItem("dataFav", stringifydataFav);
+};
+
 // event btn search
 btnSearch.addEventListener("click", handleSearch);
+
+// start app
+getFromLocalStorage();
