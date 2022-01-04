@@ -1,11 +1,88 @@
+.body {
+  background-color: rgb(5, 5, 43);
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+
 .main {
+  width: 100%;
+  padding-left: 40px;
   display: flex;
   &__results {
-    margin-left: 300px;
+    width: 60%;
+    justify-content: center;
+    text-align: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    &--list {
+      grid-column: 2 / 3;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      justify-items: center;
+      margin: 3%;
+    }
+    &--title {
+      margin-bottom: 20px;
+    }
+  }
+  &__fav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    &--title {
+      margin-bottom: 20px;
+    }
   }
 }
 
 .favourite {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  padding: 15px;
   border: solid 2px rosybrown;
   box-shadow: 0px 0px 20px rosybrown;
+  margin-bottom: 20px;
+  text-align: center;
+  color: rgb(252, 177, 177);
+}
+
+.resultLi {
+  width: 250px;
+  display: flex;
+  padding: 15px;
+  flex-direction: column;
+  margin-bottom: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btnX {
+  width: 40px;
+  height: 40px;
+  padding: 5px 10px 5px 10px;
+  margin-bottom: 10px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: white 2px solid;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.btnX:hover {
+  border: solid 2px rosybrown;
+  box-shadow: 0px 0px 20px rosybrown;
+  color: rosybrown;
+}
+
+.animeFavList {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 450px;
+  margin-right: 200px;
+  margin-bottom: 30px;
+  text-align: center;
 }

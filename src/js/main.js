@@ -18,7 +18,7 @@ let dataFav = [];
 function getAnimeResult() {
   const userValue = inputSearch.value;
   // quitar el limit de resultados
-  fetch(`https://api.jikan.moe/v3/search/anime?q=${userValue}&limit=4`)
+  fetch(`https://api.jikan.moe/v3/search/anime?q=${userValue}`)
     .then((response) => response.json())
     .then((dataApi) => {
       data = dataApi.results;
@@ -40,7 +40,7 @@ function renderAnimeResult() {
         <img class="js_anime" data-id=${eachAnime.mal_id} src=${eachAnime.image_url} alt="Image of ${eachAnime.title}"><h3 class="js_animeTitle">${eachAnime.title}</h3>
         </li>`;
     } else {
-      animeResults.innerHTML += `<li class="js_animeList" data-id=${eachAnime.mal_id}>
+      animeResults.innerHTML += `<li class="js_animeList resultLi" data-id=${eachAnime.mal_id}>
       <img class="js_anime" data-id=${eachAnime.mal_id} src=${eachAnime.image_url} alt="Image of ${eachAnime.title}"><h3 class="js_animeTitle">${eachAnime.title}</h3>
       </li>`;
     }
@@ -93,8 +93,8 @@ function handleClickedAnime(ev) {
 function renderAnimeFavResults() {
   animeFav.innerHTML = "";
   for (const eachFavAnime of dataFav) {
-    animeFav.innerHTML += `<li class="js_animeFavList" data-id=${eachFavAnime.mal_id}>
-        <img class="js_animeFav" src=${eachFavAnime.image_url} alt="Image of ${eachFavAnime.title}"><h3 class="js_animeFavTitle">${eachFavAnime.title}</h3><button class="js_BtnResetFav">X</button>
+    animeFav.innerHTML += `<li class="js_animeFavList animeFavList" data-id=${eachFavAnime.mal_id}>
+        <img class="js_animeFav" src=${eachFavAnime.image_url} alt="Image of ${eachFavAnime.title}"><h3 class="js_animeFavTitle">${eachFavAnime.title}</h3><button class="js_BtnResetFav btnX">X</button>
         </li>`;
   }
   removeFavAnime();
