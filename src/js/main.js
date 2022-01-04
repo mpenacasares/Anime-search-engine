@@ -137,9 +137,11 @@ getFromLocalStorage();
 
 function handleReset(ev) {
   ev.preventDefault();
+  inputSearch.value = "";
   dataFav = [];
   renderAnimeFavResults();
   localStorage.removeItem("dataFav");
+  renderAnimeResult();
 }
 
 // event btn reset
@@ -174,4 +176,5 @@ function handleRemoveFav(ev) {
 
   setInLocalStorage();
   renderAnimeFavResults();
+  renderAnimeResult();
 }
